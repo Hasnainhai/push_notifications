@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "567412214145",
+    "project_id": "test-notification-fd9f9",
+    "storage_bucket": "test-notification-fd9f9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567412214145:android:ea14fb85fecdc47ed74080",
+        "android_client_info": {
+          "package_name": "com.intralink.notifications"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH9XNcNpes3Z7TOHUbrft0Hzx31agdM14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
