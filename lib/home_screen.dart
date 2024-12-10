@@ -14,6 +14,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     notificationsServices.requestNotificationsPermissions();
+    notificationsServices.getDeviceToken().then((value) {
+      print('device Token: $value');
+    });
+    notificationsServices.refreshToken();
   }
 
   @override
