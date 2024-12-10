@@ -25,4 +25,15 @@ class NotificationsServices {
       print('Authorization Denied!');
     }
   }
+
+  Future<String> getDeviceToken() async {
+    String? token = await messaging.getToken();
+    return token!;
+  }
+
+  void refreshToken() {
+    messaging.onTokenRefresh.listen((event) {
+      print('Event: $event');
+    });
+  }
 }
