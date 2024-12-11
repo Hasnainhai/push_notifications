@@ -14,14 +14,19 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     notificationsServices.requestNotificationsPermissions();
+    notificationsServices.firebaseInit(context);
     notificationsServices.getDeviceToken().then((value) {
       print('device Token: $value');
     });
-    notificationsServices.refreshToken();
+    // notificationsServices.refreshToken();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Notifications'),
+      ),
+    );
   }
 }
