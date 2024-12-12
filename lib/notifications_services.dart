@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:push_notifications/message_screen.dart';
 
 class NotificationsServices {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -46,7 +47,9 @@ class NotificationsServices {
       iOS: iosInitializationSettings,
     );
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: (payload) {});
+        onDidReceiveNotificationResponse: (payload) {
+      handleMesg(context, message);
+    });
   }
 
 // get FCM token or device token
@@ -72,6 +75,8 @@ class NotificationsServices {
 
       if (Platform.isAndroid) {
         initLocalNotifications(context, message);
+        showNotifications(message);
+      } else {
         showNotifications(message);
       }
     });
@@ -117,5 +122,32 @@ class NotificationsServices {
       _flutterLocalNotificationsPlugin.show(0, message.notification!.title,
           message.notification!.body, notificationDetails);
     });
+  }
+
+//setup for interact message notifications
+  Future<void> setupInterectMessage(BuildContext context) async {
+    // when application is terminated
+    RemoteMessage? initialMessge =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessge != null) {
+      handleMesg(context, initialMessge);
+    }
+    // when application is on background
+    FirebaseMessaging.onMessage.listen((event) {
+      handleMesg(context, event);
+    });
+  }
+
+// handle notification navigator
+  void handleMesg(BuildContext context, RemoteMessage message) {
+    if (message.data['type'] == 'hasnain') {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MessageScreen(
+                    id: message.data['id'],
+                  )));
+    }
   }
 }
