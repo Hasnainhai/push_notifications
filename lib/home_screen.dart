@@ -16,10 +16,10 @@ class _HomeScreenState extends State<HomeScreen> {
     notificationsServices.requestNotificationsPermissions();
     notificationsServices.firebaseInit(context);
     notificationsServices.setupInterectMessage(context);
+    notificationsServices.refreshToken();
     notificationsServices.getDeviceToken().then((value) {
       print('device Token: $value');
     });
-    // notificationsServices.refreshToken();
   }
 
   @override
@@ -27,6 +27,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications'),
+      ),
+      body: Center(
+        child: TextButton(
+            onPressed: () {
+              notificationsServices.getDeviceToken().then((value) async {
+                var data = {
+                  'to': value.toString(),
+                  'priority': 'high',
+                  'notification': {
+                    'title': 'Hasnain',
+                    'body': 'this message is send this my device',
+                    'data': {'type': ''}
+                  }
+                };
+              });
+            },
+            child: const Text('Send notification')),
       ),
     );
   }
