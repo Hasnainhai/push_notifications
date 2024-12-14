@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:push_notifications/notifications_services.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -33,14 +35,24 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               notificationsServices.getDeviceToken().then((value) async {
                 var data = {
-                  'to': value.toString(),
+                  'to': value,
                   'priority': 'high',
                   'notification': {
                     'title': 'Hasnain',
                     'body': 'this message is send this my device',
-                    'data': {'type': ''}
+                    'data': {
+                      'type': 'mesg',
+                      'id': 'hasnain123',
+                    }
                   }
                 };
+                await http.post(
+                    Uri.parse('https://fcm.googleapis.com/fcm/send'),
+                    body: jsonEncode(data),
+                    headers: {
+                      'Content-Type': 'application/json;charset=UTF-8',
+                      'Authorization': 'key=CLOUD MESSAGES API KEY',
+                    });
               });
             },
             child: const Text('Send notification')),
